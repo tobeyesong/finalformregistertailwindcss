@@ -13,9 +13,9 @@ const required = (value) => (value ? undefined : "Required");
 const email = (value) =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? "Invalid Email Address"
-    : "Required";
+    : undefined;
 
-const Register = ({ register, isAuthenticated }) => {
+const Register = () => {
   const onSubmit = async (values) => {
     if (values.password !== values.password2) {
       return { [FORM_ERROR]: "Password does not match" };
