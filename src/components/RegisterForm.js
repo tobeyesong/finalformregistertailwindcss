@@ -75,7 +75,7 @@ const Register = () => {
                   name='email'
                   component='input'
                   placeholder='Email Address'
-                  validate={email}>
+                  validate={(email, required)}>
                   {({ input, meta, placeholder }) => (
                     <div>
                       <input
