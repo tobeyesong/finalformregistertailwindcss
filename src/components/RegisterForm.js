@@ -10,10 +10,6 @@ import { FORM_ERROR } from "final-form";
 import { XCircleIcon } from "@heroicons/react/solid";
 
 const required = (value) => (value ? undefined : "Required");
-const email = (value) =>
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? "Invalid Email Address"
-    : undefined;
 
 const Register = () => {
   const onSubmit = async (values) => {
@@ -35,6 +31,28 @@ const Register = () => {
         </div>
         <Form
           onSubmit={onSubmit}
+          validate={(values) => {
+            const errors = {};
+            if (values.email !== "undefined") {
+              var pattern = new RegExp(
+                /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+              );
+
+              if (!pattern.test(values.email)) {
+                errors.email = "Please enter valid email address.";
+              }
+            }
+
+            if (values.password && values.password.length < 6) {
+              errors.password = "Please enter 6 characters or more.";
+            }
+
+            if (values.password2 && values.password2.length < 6) {
+              errors.password2 = "Please enter 6 characters or more.";
+            }
+
+            return errors;
+          }}
           render={({ handleSubmit, submitError }) => (
             <form className='mt-8 mb-4 space-y-6' onSubmit={handleSubmit}>
               <div className='p-4 border-2 border-gray-100 rounded-md shadow-lg'>
@@ -75,7 +93,7 @@ const Register = () => {
                   name='email'
                   component='input'
                   placeholder='Email Address'
-                  validate={(email, required)}>
+                  validate={required}>
                   {({ input, meta, placeholder }) => (
                     <div>
                       <input
